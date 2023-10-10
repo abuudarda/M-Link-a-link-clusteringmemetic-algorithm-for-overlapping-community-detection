@@ -42,11 +42,8 @@ class Individual:
         return False
 
     def __str__(self):
-        # Convert the loci and gene arrays to strings and format them
         loci_str = ', '.join(map(str, self.loci))
         gene_str = ', '.join(map(str, self.gene))
-
-        # Return a formatted string
         return f"Loci: [{loci_str}]\nGene: [{gene_str}]"
 
 
