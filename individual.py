@@ -16,7 +16,7 @@ class Individual:
             random.shuffle(random_set)
             for cur_tuple in set:
                 value_assigned = False
-                
+
                 for other_tuple in random_set:
                     if visited[other_tuple] or other_tuple == cur_tuple:
                         continue
@@ -30,7 +30,8 @@ class Individual:
 
                 if not value_assigned:
                     for t in random_set:
-                        if(not visited[t]): other_tuple=t 
+                        if(not visited[t]):
+                            other_tuple = t
                     self.loci[current_position] = cur_tuple
                     self.gene[current_position] = other_tuple
                     visited[cur_tuple] = 1
@@ -40,6 +41,30 @@ class Individual:
         if t1[0] == t2[0] or t1[0] == t2[1] or t1[1] == t2[0] or t1[1] == t2[1]:
             return True
         return False
+
+    def decode(self):
+        labels = {l: 0 for l in self.loci}
+
+        c=1
+        for i in range(self.size):
+            if labels[self.loci[i]] == 0 and labels[self.gene[i]] == 0:
+                labels[self.loci[i]]=c
+                labels[self.gene[i]]=c
+                c+=1
+            elif labels[self.loci[i]] == 0:
+                labels[self.loci[i]] = labels[self.gene[i]]
+            elif labels[self.gene[i]] == 0:
+                labels[self.gene[i]] = labels[self.loci[i]]
+
+        value_to_keys = {}
+        for key, value in labels.items():
+            if value in value_to_keys:
+                value_to_keys[value].add(key)
+            else:
+                value_to_keys[value] = {key}
+        return list(value_to_keys.values())
+            
+
 
     def __str__(self):
         loci_str = ', '.join(map(str, self.loci))
@@ -51,3 +76,4 @@ class Individual:
 sets_list = [{(1, 2), (2, 3)}, {(4, 5), (5, 6), (4, 11)}, {(7, 8), (9, 10)}]
 individual = Individual(sets_list)
 print(individual)
+print(individual.decode())
