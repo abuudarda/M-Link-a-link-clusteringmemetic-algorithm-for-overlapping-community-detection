@@ -64,7 +64,17 @@ class Individual:
                 value_to_keys[value] = {key}
         return list(value_to_keys.values())
             
+    def get_gene(self,index):
+        return self.loci[index],self.gene[index]
+    
+    def set_gene(self,index,loci_value,gene_value):
+        self.gene[index]=gene_value
+        self.loci[index]=loci_value
 
+    def __eq__(self,other):
+        for i in range(len(self.gene)):
+            if (self.gene[i]!=other.gene[i] or self.loci[i]!=other.loci[i]) : return False
+        return True
 
     def __str__(self):
         loci_str = ', '.join(map(str, self.loci))
@@ -73,7 +83,20 @@ class Individual:
 
 
 # Example usage:
+
 sets_list = [{(1, 2), (2, 3)}, {(4, 5), (5, 6), (4, 11)}, {(7, 8), (9, 10)}]
 individual = Individual(sets_list)
-print(individual)
-print(individual.decode())
+sets_list1 = [{(1, 2), (2, 3)}, {(4, 5), (5, 6), (4, 11)}, {(7, 8), (9, 10)}]
+individual1 = Individual(sets_list1)
+sets_list2 = [{(1, 2), (2, 3)}, {(4, 5), (5, 6), (4, 11)}, {(7, 8), (9, 8)}]
+individual2 = Individual(sets_list2)
+# print(individual)
+# print(individual1)
+# print(individual2)
+
+# # print(individual.decode())
+# print(individual== individual1)
+# print(individual== individual2)
+individual.set_gene(1,(11,22),(33,44))
+
+print(individual.get_gene(1))
